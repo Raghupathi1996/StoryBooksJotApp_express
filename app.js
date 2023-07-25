@@ -1,6 +1,8 @@
 require('dotenv').config()
 const express = require('express')
 const connectDB = require('./db/connect')
+const cookieParser = require('cookie-parser')
+const seesion = require('express-session')
 const passport = require('passport')
 
 // Load User Model
@@ -21,7 +23,23 @@ app.get('/', (req, res) => {
     res.send('It Works!')
 })
 
+app.use(cookieParser());
+app.use(session({
+    secret: 'secret',
+    resave: false,
+    saveUninitalized: false
+}))
+
+app.use(passport.initialize())
+app.use(passport.session())
+
+app.use((req, res, next) => {
+res.locals.user = req.user || null;
+next();
+});
+
 app.use('/auth', auth)
+
 
 const port = process.env.PORT || 5000;
 
