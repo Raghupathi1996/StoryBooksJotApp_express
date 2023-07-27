@@ -1,8 +1,9 @@
 require('dotenv').config()
 const express = require('express')
+const exphbs = require('express-handlebars')
 const connectDB = require('./db/connect')
 const cookieParser = require('cookie-parser')
-const seesion = require('express-session')
+const session = require('express-session')
 const passport = require('passport')
 
 // Load User Model
@@ -15,19 +16,22 @@ require('./config/passport_google')(passport);
 const keys = require('./config/keys')
 
 // Load Routes
+const index = require('./routes/index')
 const auth = require('./routes/auth')
 
 const app = express();
 
-app.get('/', (req, res) => {
-    res.send('It Works!')
-})
+// Handlebars Middleware
+app.engine('handlebars', exphbs.engine({
+    defaultLayout:'main'
+}))
+app.set('view engine', 'handlebars')
 
 app.use(cookieParser());
 app.use(session({
     secret: 'secret',
     resave: false,
-    saveUninitalized: false
+    saveUninitialized: false
 }))
 
 app.use(passport.initialize())
@@ -38,6 +42,7 @@ res.locals.user = req.user || null;
 next();
 });
 
+app.use('/', index)
 app.use('/auth', auth)
 
 
