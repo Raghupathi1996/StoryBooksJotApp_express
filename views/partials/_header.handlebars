@@ -2,8 +2,16 @@
     <div class="container">
         <div class="nav-wrapper">
             <a href="/stories" class="brand-logo center">StoryBooks</a>
-            <a href="#" data-activates="main-menu" class="button-collapse show-on-large"><i class="fa fa-bars"></i></a>
-            <ul class="right hide-on-small-only"></ul>
+            <a href="#" data-activates="main-menu" class="button-collapse show-on-large left"><ion-icon name="menu-sharp"></ion-icon></a>
+            {{!-- <! --Right NAV --> --}}
+                <ul class="right hide-on-small-only"></ul>
+                {{!-- {{#if user}} --}}
+                <li><a href="/dashboard" class="">Welcome {{user.firstName}}</a></li>
+                <li><a href="/auth/logout" class="right"><ion-icon name="log-out-sharp" style="color: aliceblue;"></ion-icon>Logout</a></li>
+                {{!-- {{else}}
+                <li><a href="/stories" class="right"><ion-icon name="book"></ion-icon> Public stories</a></li>
+                {{/if}} --}}
         </div>
     </div>
 </nav>
+{{!-- <i data-feather="fas fa-book"></i> --}}
